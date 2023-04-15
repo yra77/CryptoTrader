@@ -1,0 +1,48 @@
+﻿<prism:PrismApplication
+    x:Class="CryptoTrader.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:CryptoTrader"
+    xmlns:prism="http://prismlibrary.com/">
+    <Application.Resources>
+        <ResourceDictionary>
+            
+            <!--Color-->
+            <SolidColorBrush x:Key="TopLineBackground">Teal</SolidColorBrush>
+            
+            <!--Main-->
+            <SolidColorBrush x:Key="SearchBackground" >LightGray</SolidColorBrush>
+            <SolidColorBrush x:Key="ButtonBackground">Transparent</SolidColorBrush>
+            <SolidColorBrush x:Key="ButtonBorder">LightGray</SolidColorBrush>
+
+            <!--Settings-->
+            <SolidColorBrush x:Key="BorderBrush" >Black</SolidColorBrush>
+            <SolidColorBrush x:Key="BorderBackground">Transparent</SolidColorBrush>
+            <SolidColorBrush x:Key="ButtonBorderBackground">Transparent</SolidColorBrush>
+            <SolidColorBrush x:Key="BtnBackground">Transparent</SolidColorBrush>
+            <SolidColorBrush x:Key="ButtonColor">White</SolidColorBrush>
+            <SolidColorBrush x:Key="TextColor">Teal</SolidColorBrush>
+
+            <!--History-->
+            <SolidColorBrush x:Key="h_Border" >Black</SolidColorBrush>
+            <SolidColorBrush x:Key="h_BorderBackground">Transparent</SolidColorBrush>
+            <SolidColorBrush x:Key="h_ButtonBorderBackground">Transparent</SolidColorBrush>
+            <SolidColorBrush x:Key="h_BtnBackground">Transparent</SolidColorBrush>
+            <SolidColorBrush x:Key="h_ButtonColor">White</SolidColorBrush>
+            <SolidColorBrush x:Key="h_TextColor">Teal</SolidColorBrush>
+            <Color x:Key="h_TextBlockColor">Black</Color>
+            <SolidColorBrush x:Key="h_G_Border">Teal</SolidColorBrush>
+            <SolidColorBrush x:Key="h_G_Text">Teal</SolidColorBrush>
+            
+            <!--CoinInfo-->
+            <SolidColorBrush x:Key="ci_BorderBackground">Transparent</SolidColorBrush>
+            <SolidColorBrush x:Key="ci_ButtonBorderBackground">Transparent</SolidColorBrush>
+            <SolidColorBrush x:Key="ci_BtnBackground">Transparent</SolidColorBrush>
+            <SolidColorBrush x:Key="ci_ButtonColor">White</SolidColorBrush>
+            <Color x:Key="ci_TextBlockColor">Black</Color>
+            <SolidColorBrush x:Key="ci_BorderBrush">LightBlue</SolidColorBrush>
+            <SolidColorBrush x:Key="ci_Border2Background">Transparent</SolidColorBrush>
+
+        </ResourceDictionary>
+    </Application.Resources>
+</prism:PrismApplication>

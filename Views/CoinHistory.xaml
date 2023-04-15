@@ -1,0 +1,87 @@
+﻿<UserControl x:Class="CryptoTrader.Views.CoinHistory"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:CryptoTrader.Views"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"        
+        xmlns:prism="http://prismlibrary.com/" 
+             xmlns:p="clr-namespace:CryptoTrader.Services.Localisation"
+             prism:ViewModelLocator.AutoWireViewModel="true"
+             xmlns:charting="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=DotNetProjects.DataVisualization.Toolkit"  
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="10*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="10*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Row="0"
+                    Grid.ColumnSpan="3"
+                    Orientation="Horizontal"
+                    Margin="0,10,0,0"
+                    Background="{DynamicResource TopLineBackground}">
+
+            <Border CornerRadius="4" 
+                    BorderBrush="{DynamicResource h_Border}"
+                    BorderThickness="2" 
+                    Background="{DynamicResource h_BorderBackground}"
+                    Width="40"
+                    Height="25"
+                    Margin="20,0,0,0"
+                    Cursor="Hand">
+
+                <Button Command="{Binding BackBtn}"
+                    FontFamily="Verdana"
+                    Background="{DynamicResource h_BtnBackground}" 
+                    BorderBrush="{DynamicResource h_ButtonBorderBackground}"
+                    Foreground="{DynamicResource h_ButtonColor}"
+                    Margin="0,0,0,0"
+                    Content="{p:Loc back}"/>
+            </Border>
+
+            <TextBlock Text="{Binding Name}"
+                       FontWeight="Bold"
+                       FontFamily="Verdana"
+                       Grid.Column="1"
+                       Grid.Row="0"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       TextAlignment="Center"
+                       Margin="300,0,0,0">
+                <TextBlock.Foreground>
+                    <SolidColorBrush Color="{DynamicResource h_TextBlockColor}"/>
+                </TextBlock.Foreground>
+            </TextBlock>
+
+        </StackPanel>
+
+        <charting:Chart Margin="3" 
+                        Grid.ColumnSpan="2"
+                        Grid.Row="1" 
+                        BorderBrush="{DynamicResource h_G_Border}" 
+                        LegendTitle="{Binding Name}" 
+                        Foreground="{DynamicResource h_G_Text}">
+            
+            <charting:LineSeries ItemsSource="{Binding Points}"  
+                                 DependentValuePath="Value"  
+                                 IndependentValuePath="Time"/>
+            <charting:Chart.Axes>
+                <charting:LinearAxis Orientation="Y" 
+                                     Minimum="{Binding MinValue}"  
+                                     Maximum="{Binding MaxValue}" 
+                                     Title="value" 
+                                     ShowGridLines="True"/>
+                <charting:DateTimeAxis Orientation="X"  
+                                       Title="Time" 
+                                       ShowGridLines="False"/>
+            </charting:Chart.Axes>
+        </charting:Chart>
+    </Grid>
+</UserControl>
