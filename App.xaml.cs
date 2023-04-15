@@ -3,6 +3,7 @@
 using CryptoTrader.Services.HttpServices.DataService;
 using CryptoTrader.Services.Localisation;
 using CryptoTrader.Services.Repository;
+using CryptoTrader.Services.Settings;
 using CryptoTrader.ViewModels;
 using CryptoTrader.Views;
 
@@ -34,6 +35,7 @@ namespace CryptoTrader
             containerRegistry.Register<Services.ICustomerStore, Services.DbCustomerStore>();
             containerRegistry.Register<IRepository, Repository> ();
             containerRegistry.Register<IDataService, DataService>();
+            containerRegistry.RegisterSingleton<ISettings, SettingsApp>();
             containerRegistry.RegisterSingleton<ITranslationSource, TranslationSource>();
 
 

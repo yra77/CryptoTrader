@@ -1,16 +1,14 @@
 ﻿
 
-using CryptoTrader.Services.HttpServices.DataService;
 using CryptoTrader.Services.Localisation;
+using CryptoTrader.Services.Settings;
 
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
 
-using System;
 using System.ComponentModel;
 using System.Globalization;
-using System.Threading;
 
 
 namespace CryptoTrader.ViewModels
@@ -20,18 +18,18 @@ namespace CryptoTrader.ViewModels
 
 
         private readonly IRegionManager _regionManager;
-        private readonly IDataService _dataService;
+        private readonly ISettings _settings;
         private readonly ITranslationSource _translationSource;
         private string _pathGoBack;
 
 
-        public SettingsViewModel(IDataService dataService,
+        public SettingsViewModel(ISettings settings,
                                    IRegionManager regionManager,
                                    ITranslationSource translationSource)
         {
             _translationSource = translationSource;
             _regionManager = regionManager;
-            _dataService = dataService;
+            _settings = settings;
 
             //App.LanguageChanged += LanguageChanged;
         }
@@ -84,13 +82,13 @@ namespace CryptoTrader.ViewModels
                 case "IsUkrainian":
                     IsEnglish = false;
                     _translationSource.CurrentCulture = CultureInfo.CreateSpecificCulture("uk");
+                   
                     break;
                 default:
                     break;
             }
 
-          //  Thread.CurrentThread.CurrentCulture = culture;
-          //  Thread.CurrentThread.CurrentUICulture = culture;
+            _settings.SaveProperty(language:_translationSource.CurrentCulture);
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)

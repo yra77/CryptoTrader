@@ -3,6 +3,7 @@
 using CryptoTrader.Models;
 using CryptoTrader.Services.HttpServices.DataService;
 using CryptoTrader.Services.Localisation;
+using CryptoTrader.Services.Settings;
 using CryptoTrader.Views;
 
 using Prism.Commands;
@@ -26,13 +27,15 @@ namespace CryptoTrader.ViewModels
     {
 
         private readonly ITranslationSource _translationSource;
+        private readonly ISettings _settings;
 
-
-        public MainWindowViewModel(IRegionManager regionManager,
+        public MainWindowViewModel(ISettings settings,
+                                   IRegionManager regionManager,
                                    ITranslationSource translationSource)
         {
+            _settings = settings;
             _translationSource = translationSource;
-            _translationSource.CurrentCulture = CultureInfo.GetCultureInfo("en");
+            _translationSource.CurrentCulture = _settings.Load().Language;
             regionManager.RegisterViewWithRegion("ContentRegion", typeof(CoinList));
         }
 
