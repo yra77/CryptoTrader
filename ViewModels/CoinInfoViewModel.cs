@@ -80,7 +80,8 @@ namespace CryptoTrader.ViewModels
         private async void GetCoinInfo()
         {
             CoinInfo = await _dataService.GetDataCoinInfo<CoinInfoModel>(HttpMethod.Get,
-                             Constants.Path_Constants.COIN_INFO_PATH.Replace("bitcoin", Name.ToLower()));
+                             Constants.Path_Constants.COIN_INFO_PATH1 + Name.ToLower()
+                             + Constants.Path_Constants.COIN_INFO_PATH2);
 
         }
 
