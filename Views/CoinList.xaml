@@ -34,6 +34,13 @@
                     BorderBrush="{DynamicResource ButtonBorder}"
                     Command="{Binding CommandSettings}"
                     Content="{p:Loc settings}"/>
+            
+            <TextBlock Grid.Column="1" 
+                       Foreground="LightGray"
+                       VerticalAlignment="Center" 
+                       HorizontalAlignment="Right"
+                       Margin="0,0,150,0"
+                       Text="Search"/>
 
             <TextBox Grid.Column="1"
                      Width="120"
@@ -44,9 +51,8 @@
                      VerticalAlignment="Center" 
                      HorizontalAlignment="Right" 
                      VerticalContentAlignment="Center" 
-                     Text="{Binding SearchInput, UpdateSourceTrigger=PropertyChanged}">
-                
-            </TextBox>
+                     Text="{Binding SearchInput, UpdateSourceTrigger=PropertyChanged}"/>
+
         </Grid>
 
 
@@ -84,15 +90,23 @@
                                     <TextBlock FontSize="12"  
                                                    Text="{Binding Path=current_price, StringFormat=' ${0}'}" 
                                                    VerticalAlignment="Center"
-                                                   HorizontalAlignment="Center"/>
+                                                   HorizontalAlignment="Center"
+                                                   Foreground="{Binding colorPrice}"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
 
                         
-                        <GridViewColumn Header="Percentage"  
-                                        Width="100" 
-                                        DisplayMemberBinding="{Binding Path=price_change_percentage_24h, StringFormat=' {0}%'}">
+                        <GridViewColumn Header="Percentage" Width="100">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock FontSize="12"  
+                                                   Text="{Binding Path=price_change_percentage_24h, StringFormat=' {0}%'}" 
+                                                   VerticalAlignment="Center"
+                                                   HorizontalAlignment="Center"
+                                                   Foreground="{Binding colorPercentage}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
                         </GridViewColumn>
 
                         

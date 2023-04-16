@@ -9,6 +9,7 @@ using Prism.Regions;
 
 using System.ComponentModel;
 using System.Globalization;
+using System.Windows;
 
 
 namespace CryptoTrader.ViewModels
@@ -121,7 +122,7 @@ namespace CryptoTrader.ViewModels
             }
             else
             {
-
+                MessageBox.Show("Error!");
             }
         }
 

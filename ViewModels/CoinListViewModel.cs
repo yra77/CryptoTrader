@@ -11,8 +11,11 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Net.Http;
+using System.Timers;
+using System.Windows;
 using System.Windows.Data;
 
 
@@ -21,10 +24,13 @@ namespace CryptoTrader.ViewModels
     internal class CoinListViewModel : BindableBase, INavigationAware
     {
 
+        private static Timer _Timer;
+
         private readonly IRegionManager _regionManager;
         private readonly IDataService _dataService;
         private List<DataMarketModel> _staticList;
         private ICollectionView _lists;
+
 
         public CoinListViewModel(IDataService dataService,
                                    IRegionManager regionManager)
@@ -33,8 +39,15 @@ namespace CryptoTrader.ViewModels
             _dataService = dataService;
 
             SearchInput = "";
-            _staticList = new List<DataMarketModel>(); 
-            GetItems();
+
+            GetItems(false);
+
+            // Create a timer and set a two second interval.
+            _Timer = new System.Timers.Timer();
+            _Timer.Interval = 30000;
+            _Timer.Elapsed += OnTimedEvent;
+            _Timer.AutoReset = true;
+            _Timer.Enabled = true;
         }
 
 
@@ -67,6 +80,11 @@ namespace CryptoTrader.ViewModels
         #endregion
 
 
+        private void OnTimedEvent(Object source, System.Timers.ElapsedEventArgs e)
+        {
+            Console.WriteLine(e.SignalTime);
+            GetItems(true);
+        }
 
         private void CommandSettingsClick()
         {
@@ -76,28 +94,56 @@ namespace CryptoTrader.ViewModels
             _regionManager.RequestNavigate("ContentRegion", "Settings", parameters);
         }
 
-        private async void GetItems()
+        private async void GetItems(bool isTimer)
         {
             var list = await _dataService.GetData<DataMarketModel>(HttpMethod.Get, Constants.Path_Constants.LIST_COIN_PATH);
 
             if (list != null)
             {
                 CoinsList.Clear();
+                _lists = CollectionViewSource.GetDefaultView(CoinsList);
 
                 for (int i = 0; i < list.Count; i++)
                 {
                     list[i].image = list[i].image.Replace("large", "thumb");
 
+                    if (list[i].price_change_percentage_24h[0] == '-')
+                    {
+                        list[i].colorPercentage = "Red";
+                    }
+                    else
+                    {
+                        list[i].colorPercentage = "Green";
+                    }
+
+                    if (isTimer 
+                        && i < _staticList.Count
+                        && list[i].name == _staticList[i].name)
+                    {
+                       
+                        var now = Double.Parse(list[i].current_price, CultureInfo.InvariantCulture);
+                        var prev = Double.Parse(_staticList[i].current_price, CultureInfo.InvariantCulture);
+                       // Console.WriteLine(now + " " + prev);
+
+                        if (now >= prev)
+                        {
+                            list[i].colorPrice = "Green";
+                        }
+                        else if (now < prev)
+                        {
+                            list[i].colorPrice = "Red";
+                        }
+                    }
                     CoinsList.Add(list[i]);
+                    _lists.Refresh();
                 }
 
-                _staticList = CoinsList;
-                _lists = CollectionViewSource.GetDefaultView(CoinsList);
+                _staticList = new List<DataMarketModel>(CoinsList);
                 _lists.Refresh();
             }
             else
             {
-
+                MessageBox.Show("Error!");
             }
         }
 
@@ -127,9 +173,9 @@ namespace CryptoTrader.ViewModels
                         _lists.Refresh();
                         RaisePropertyChanged("CoinsList");
                     }
-                    else if(_staticList != null)
+                    else if (_staticList != null)
                     {
-                       CoinsList = _staticList; 
+                        CoinsList = _staticList;
                         _lists.Refresh();
                         RaisePropertyChanged("CoinsList");
                     }

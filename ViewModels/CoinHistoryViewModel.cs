@@ -12,6 +12,7 @@ using System.Net.Http;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Windows;
 
 
 namespace CryptoTrader.ViewModels
@@ -22,6 +23,7 @@ namespace CryptoTrader.ViewModels
 
         private readonly IRegionManager _regionManager;
         private readonly IDataService _dataService;
+        private double _minvalue;
 
 
         public CoinHistoryViewModel(IDataService dataService,
@@ -83,20 +85,21 @@ namespace CryptoTrader.ViewModels
         {
             if (val > MaxValue)
             {
-                MaxValue = Math.Round(val, 5, MidpointRounding.AwayFromZero);
+                MaxValue = val + val / 10;
             }
-            if (val < MinValue)
+            if (val < _minvalue)
             {
-                MinValue = Math.Round(val, 5, MidpointRounding.AwayFromZero);
+                MinValue = val - val/10;
+                _minvalue = val;
             }
         }
 
         private async void GraphicView()
         {
-            //bitcoin/history?interval=d1
-            var result = await _dataService.GetHistory<HistoryModel>(HttpMethod.Get, 
-                             Constants.Path_Constants.HISTORY_PATH + Name + "/history?interval=d1");//&start=1681126967000&end=1681472567000");
-
+            var result = await _dataService.GetHistory(HttpMethod.Get,
+                             Constants.Path_Constants.HISTORY_PATH1 
+                             + Name 
+                             + Constants.Path_Constants.HISTORY_PATH2);
 
             Points = new ObservableCollection<ToolkPoint>();
 
@@ -105,13 +108,17 @@ namespace CryptoTrader.ViewModels
 
                 foreach (var item in result)
                 {
+                    var val = Double.Parse(item[1], System.Globalization.CultureInfo.InvariantCulture);
 
-                    var val = Double.Parse(item.priceUsd, System.Globalization.CultureInfo.InvariantCulture);
-
+                    val = Math.Round(val, 5, MidpointRounding.AwayFromZero);
                     MinMax(val);
 
-                    Points.Add(new ToolkPoint(val, Convert.ToInt64(item.time)));
+                    Points.Add(new ToolkPoint(val, Convert.ToInt64(item[0])));
                 }
+            }
+            else
+            {
+                MessageBox.Show("Error!");
             }
         }
 
@@ -138,6 +145,7 @@ namespace CryptoTrader.ViewModels
           
             if (Name != null)
             {
+                _minvalue = 100000.0;
                 MinValue = 0;
                 MaxValue = 0;
                 GraphicView();

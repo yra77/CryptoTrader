@@ -12,7 +12,7 @@ namespace CryptoTrader.Services.HttpServices.DataService
     {
         Task<ObservableCollection<T>> GetData<T>(HttpMethod method, string path) where T : class, new();
         Task<T> GetDataCoinInfo<T>(HttpMethod method, string path) where T : class, new();
-        Task<List<T>> GetHistory<T>(HttpMethod method, string path) where T : class, new();
+        Task<List<string[]>> GetHistory(HttpMethod method, string path);
         Task<byte[]> GetImage(string coinName);
     }
 }

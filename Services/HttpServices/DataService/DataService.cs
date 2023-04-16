@@ -45,12 +45,12 @@ namespace CryptoTrader.Services.HttpServices.DataService
         }
 
 
-        public async Task<List<T>> GetHistory<T>(HttpMethod method, string path) where T : class, new()
+        public async Task<List<string[]>> GetHistory(HttpMethod method, string path)
         {
             string res = await _repository.GetData(method, path);
 
             return (res != null)
-                    ? JsonConvert.DeserializeObject<List<T>>(JObject.Parse(res)["data"].ToString())
+                    ? JsonConvert.DeserializeObject<List<string[]>>(JObject.Parse(res)["prices"].ToString())
                     : null;
         }
 
