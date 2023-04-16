@@ -24,6 +24,7 @@ namespace CryptoTrader.ViewModels
         private readonly IRegionManager _regionManager;
         private readonly IDataService _dataService;
         private double _minvalue;
+        private string _interval;
 
 
         public CoinHistoryViewModel(IDataService dataService,
@@ -71,10 +72,17 @@ namespace CryptoTrader.ViewModels
 
 
         public DelegateCommand BackBtn => new DelegateCommand(GoBack);
+        public DelegateCommand<string> IntervalCommand => new DelegateCommand<string>(Interval_Click);
 
         #endregion
 
 
+
+        private void Interval_Click(string interval)
+        {
+            _interval = interval;
+            GraphicView();
+        }
 
         private void GoBack()
         {
@@ -99,7 +107,9 @@ namespace CryptoTrader.ViewModels
             var result = await _dataService.GetHistory(HttpMethod.Get,
                              Constants.Path_Constants.HISTORY_PATH1 
                              + Name 
-                             + Constants.Path_Constants.HISTORY_PATH2);
+                             + Constants.Path_Constants.HISTORY_PATH2
+                             +_interval
+                             +Constants.Path_Constants.HISTORY_PATH3);
 
             Points = new ObservableCollection<ToolkPoint>();
 
@@ -110,7 +120,7 @@ namespace CryptoTrader.ViewModels
                 {
                     var val = Double.Parse(item[1], System.Globalization.CultureInfo.InvariantCulture);
 
-                    val = Math.Round(val, 5, MidpointRounding.AwayFromZero);
+                    val = Math.Round(val, 7, MidpointRounding.AwayFromZero);
                     MinMax(val);
 
                     Points.Add(new ToolkPoint(val, Convert.ToInt64(item[0])));
@@ -145,7 +155,8 @@ namespace CryptoTrader.ViewModels
           
             if (Name != null)
             {
-                _minvalue = 100000.0;
+                _minvalue = 100000.0; 
+                _interval = "30";
                 MinValue = 0;
                 MaxValue = 0;
                 GraphicView();

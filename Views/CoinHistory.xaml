@@ -16,6 +16,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="1*" />
             <RowDefinition Height="9*" />
+            <RowDefinition Height="2*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*"/>
@@ -76,12 +77,47 @@
                 <charting:LinearAxis Orientation="Y" 
                                      Minimum="{Binding MinValue}"  
                                      Maximum="{Binding MaxValue}" 
-                                     Title="value" 
+                                     Title="Price"
+                                     IsManipulationEnabled="True"
                                      ShowGridLines="True"/>
                 <charting:DateTimeAxis Orientation="X"  
                                        Title="Time" 
                                        ShowGridLines="False"/>
             </charting:Chart.Axes>
         </charting:Chart>
+
+        <StackPanel Orientation="Horizontal"
+                    Grid.Row="2"
+                    Grid.ColumnSpan="2"
+                    HorizontalAlignment="Stretch"
+                    Background="{DynamicResource TopLineBackground}">
+            
+            <Button Content="1d"
+                    Width="40"
+                    Height="30"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Margin="100,0,0,0"
+                    Command="{Binding IntervalCommand}"
+                    CommandParameter="1"/>
+            
+            <Button Content="14d"
+                    Width="40"
+                    Height="30"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Command="{Binding IntervalCommand}"
+                    CommandParameter="14"/>
+
+            <Button Content="30d"
+                    Width="40"
+                    Height="30"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Command="{Binding IntervalCommand}"
+                    CommandParameter="30"/>
+
+        </StackPanel>
+ 
     </Grid>
 </UserControl>
