@@ -159,7 +159,6 @@
     <Compile Include="Models\CoinInfoModel.cs" />
     <Compile Include="Models\DataMarketModel.cs" />
     <Compile Include="Models\HistoryModel.cs" />
-    <Compile Include="Services\CustomerStore.cs" />
     <Compile Include="Services\HttpServices\DataService\DataService.cs" />
     <Compile Include="Services\HttpServices\DataService\IDataService.cs" />
     <Compile Include="Services\Repository\IRepository.cs" />
@@ -208,6 +207,7 @@
       <LastGenOutput>Resources.uk.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="packages.config" />
+    <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

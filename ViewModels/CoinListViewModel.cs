@@ -29,7 +29,6 @@ namespace CryptoTrader.ViewModels
         private readonly IRegionManager _regionManager;
         private readonly IDataService _dataService;
         private List<DataMarketModel> _staticList;
-        private ICollectionView _lists;
 
 
         public CoinListViewModel(IDataService dataService,
@@ -101,7 +100,6 @@ namespace CryptoTrader.ViewModels
             if (list != null)
             {
                 CoinsList.Clear();
-                _lists = CollectionViewSource.GetDefaultView(CoinsList);
 
                 for (int i = 0; i < list.Count; i++)
                 {
@@ -135,11 +133,11 @@ namespace CryptoTrader.ViewModels
                         }
                     }
                     CoinsList.Add(list[i]);
-                    _lists.Refresh();
+
                 }
 
                 _staticList = new List<DataMarketModel>(CoinsList);
-                _lists.Refresh();
+                RaisePropertyChanged("CoinsList");
             }
             else
             {
@@ -170,13 +168,11 @@ namespace CryptoTrader.ViewModels
                         CoinsList = _staticList.Where(item => item.name.ToLower().Contains(SearchInput.ToLower())
                                    || item.symbol.ToLower().Contains(SearchInput.ToLower())).ToList();
 
-                        _lists.Refresh();
                         RaisePropertyChanged("CoinsList");
                     }
                     else if (_staticList != null)
                     {
                         CoinsList = _staticList;
-                        _lists.Refresh();
                         RaisePropertyChanged("CoinsList");
                     }
                     break;

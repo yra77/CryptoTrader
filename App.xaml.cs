@@ -32,7 +32,6 @@ namespace CryptoTrader
         {
 
             // register services
-            containerRegistry.Register<Services.ICustomerStore, Services.DbCustomerStore>();
             containerRegistry.Register<IRepository, Repository> ();
             containerRegistry.Register<IDataService, DataService>();
             containerRegistry.RegisterSingleton<ISettings, SettingsApp>();

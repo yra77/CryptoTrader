@@ -2,6 +2,7 @@
 
 using System;
 
+
 namespace CryptoTrader.Models
 {
     internal class HistoryModel
